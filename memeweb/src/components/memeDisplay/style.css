@@ -32,3 +32,10 @@ img{
     width:33em;
     height: 27em;
 }
+
+.result{
+    position: relative;
+    width:12em;
+    height:12em;
+    bottom:20em;
+}
