@@ -1,0 +1,29 @@
+.playersContainer1 {
+    width: 100%;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-around; */
+    align-items: center;
+    flex-wrap: wrap;
+    padding-right: 6%;
+}
+
+/* .gameOverview {
+    background-color: gold;
+    width: 30%;
+    padding: 20px;
+    box-sizing: border-box;
+} */
+
+.App {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+
+.memeImage{
+    margin-top:3em;
+    margin-bottom:3em;
+}

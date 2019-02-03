@@ -1,0 +1,29 @@
+.playersContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-right: 6%;
+}
+
+/* .gameOverview1 {
+    background-color: gold;
+    width: 30%;
+    padding: 20px;
+    box-sizing: border-box;
+} */
+
+.AppW {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+
+#title {
+    text-align: center;
+    font-size: 3em;
+}

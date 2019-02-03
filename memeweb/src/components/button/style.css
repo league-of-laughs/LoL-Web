@@ -1,0 +1,13 @@
+.Button {
+    /* width: 50%;
+    display: flex; */
+    justify-content: center;
+    background-color: #FF1F8C;
+    box-sizing: border-box;
+    padding: 2em;
+    
+}
+
+.Button:hover {
+    background-color: rgba(243, 61, 149, 0.5);
+}

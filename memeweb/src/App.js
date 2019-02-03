@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
-import Player from './components/Player';
-import Button from './components/Button';
+import PlayerUploaded from './components/playerUploaded';
+import PlayerNotUploaded from './components/playerNotUploaded';
+import Button from './components/button';
+
+import WaitingRoom from './pages/waitingRoom';
+import MemeRoom from './pages/memeRoom';
+import VersusRoom from './pages/versusRoom';
+import WinnerRoom from './pages/winnerRoom';
 
 
 const io = require('socket.io-client');
 const socket = io.connect('http://af7af856.ngrok.io');
 
-
+let Memes = [
+  "https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg",
+  "https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg",
+  "https://sports-images.vice.com/images/2017/01/25/when-nick-young-the-basketball-player-met-nick-young-the-meme-body-image-1485378510.jpg"
+]
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +28,9 @@ class App extends Component {
       newPlayer: false,
       playerToAdd: null,
       currentMeme: null,
+      playerUploaded: null,
+      versus: false,
+      Winner: false
     }
     socket.on('web-displayAddedPlayer', (name) => {
       this.setState({ playerToAdd: name })
@@ -29,6 +42,15 @@ class App extends Component {
       this.setState({ currentMeme: memeUrl })
 
     })
+
+    socket.on('web-playerUploadedMeme',(name) => {
+      this.setState({playerUploaded:name});
+      console.log('set');
+    })
+  }
+
+  setNewDisplayMeme = () => {
+    this.state.currentMeme = Memes[Math.floor(Math.random()*Memes.length)];
   }
 
   addNewPlayer = (name) => {
@@ -36,48 +58,91 @@ class App extends Component {
     //   return { Players: state.players.push(Players) }
     // });
     let arr = this.state.players;
-    arr.push(name);
+    let player = {name:name,uploaded: false}
+    arr.push(player);
 
     this.setState({ players: arr });
+    this.setState({ playerToAdd: null })
+
 
   }
 
+  updatePlayerStatus = (name) => {
+    let arr = this.state.players;
+    arr.map(player => {
+      if(player.name == name){
+        player.uploaded = true;
+        console.log('updated')
+        }
+    })
 
+    this.setState({players: arr});
+    this.setState({playerUploaded:null});
+
+  }
 
   buttonClicked = () => {
     //on pressing start button
     this.setState({ startGame: !this.state.startGame })
-    socket.emit('web-startGame')
+    this.setNewDisplayMeme();
+    socket.emit('web-startGame',this.state.currentMeme)
   }
 
 
   render() {
     if (this.state.playerToAdd != null) {
       this.addNewPlayer(this.state.playerToAdd);
-      this.setState({ playerToAdd: null })
+    }
+
+    if(this.state.playerUploaded != null){
+      this.updatePlayerStatus(this.state.playerUploaded);
     }
 
     //displays the button if the game hasn't started 
     let displayButton = !this.state.startGame ? <Button buttonClicked={this.buttonClicked}>
     </Button> : null
-    let displayPlayers = !this.state.startGame ? <div className="game">
-      {this.state.players.map(player => <Player player={player} ></Player>
-      )}
-    </div> : null
+
+    let displayPlayers;
+    
+    
+    displayPlayers = <div className="game">
+      {this.state.players.map(player => {
+      if(player.uploaded == false)
+        return <PlayerNotUploaded player={player.name} />
+
+      else if(player.uploaded == true)
+        return <PlayerUploaded player={player.name} />
+    })}
+    </div> 
+
 
     let displayMeme = this.state.currentMeme != null ? <img alt="" src={this.state.currentMeme} /> : null
-    return (
-      <div className="App">
-        <div className="playersContainer">
-          {displayPlayers}
-          {displayButton}
-          {displayMeme}
-        </div>
-        <div className="gameOverview">
-          <h1>Overview</h1>
-        </div>
-      </div>
-    );
+    if(this.state.startGame)
+        return(
+      <MemeRoom 
+      displayMeme = {displayMeme}
+      displayPlayers = {displayPlayers}
+      />
+        )
+
+    else if(this.state.versus)
+          return (
+            <VersusRoom />
+          )
+    
+    else if(this.state.Winner)
+            return(
+              <WinnerRoom />
+            )
+
+    else
+      return (
+        <WaitingRoom 
+        displayPlayers = {displayPlayers}
+        displayButton = {displayButton}
+        displayMeme = {displayMeme}
+        />
+      );
   }
 }
 
