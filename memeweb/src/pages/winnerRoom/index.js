@@ -19,7 +19,9 @@ const WinnerRoom = (props) => {
                 />
             </div>
             <h2>{props.winner}</h2>
+            <div className="restartButton">
             <RestartButton restart = {props.restart}/>
+            </div>
         </div>
     )
 }

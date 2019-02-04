@@ -1,8 +1,14 @@
 .containerW{
     text-align: center;
+    /* display: flex;
+    flex-direction: row; */
 }
 
 .winMeme{
     display: flex;
     justify-content: center;
+}
+
+.restartButton{
+    margin-left:42vw;
 }
