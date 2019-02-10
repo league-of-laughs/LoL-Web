@@ -11,7 +11,7 @@ import WinnerRoom from './pages/winnerRoom';
 
 
 const io = require('socket.io-client');
-const socket = io.connect('http://da266d20.ngrok.io/');
+const socket = io.connect('http://8ec978a7.ngrok.io');
 
 
 
@@ -184,6 +184,8 @@ class App extends Component {
 
       else{
       console.log('done setting players')
+      this.setState({resultOne:null});
+      this.setState({resultTwo:null});
       this.setState({startGame:false});
       this.setState({currentlyVoting:true});
       socket.emit('web-setPlayerNumbers',(dataRes));
