@@ -12,9 +12,6 @@ const WaitingRoom = (props) => {
             {props.displayPlayers}
             {props.displayButton}
           </div>
-          {/* <div className="gameOverview1">
-            <h1>Overview</h1>
-          </div> */}
         </div>
         </div>
     )

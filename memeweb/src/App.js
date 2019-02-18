@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Switch,NativeRouter,Route} from 'react-router-dom';
 import './App.css';
 import PlayerUploaded from './components/playerUploaded';
 import PlayerNotUploaded from './components/playerNotUploaded';
@@ -11,7 +12,7 @@ import WinnerRoom from './pages/winnerRoom';
 
 
 const io = require('socket.io-client');
-const socket = io.connect('http://8ec978a7.ngrok.io');
+const socket = io.connect('https://blooming-ocean-75995.herokuapp.com/');
 
 
 
@@ -258,6 +259,10 @@ class App extends Component {
 
     })
 
+  }
+
+  componentDidMount(){
+    socket.emit('web-newGame');
   }
 
   setNewDisplayMeme = () => {
